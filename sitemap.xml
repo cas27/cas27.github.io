@@ -3,29 +3,29 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://schmitty.me/pages/about/</loc>
+    <loc>https://schmitty.me/pages/about/</loc>
     <lastmod>2018-11-25T13:48:10-08:00</lastmod>
   </url>
   
   <url>
-    <loc>http://schmitty.me/categories/</loc>
+    <loc>https://schmitty.me/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://schmitty.me/</loc>
-    <lastmod>2018-11-25T13:48:10-08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>http://schmitty.me/pages/</loc>
+    <loc>https://schmitty.me/</loc>
     <lastmod>2018-11-25T13:48:10-08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://schmitty.me/tags/</loc>
+    <loc>https://schmitty.me/pages/</loc>
+    <lastmod>2018-11-25T13:48:10-08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://schmitty.me/tags/</loc>
     <priority>0</priority>
   </url>
   
