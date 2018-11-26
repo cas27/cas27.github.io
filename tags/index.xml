@@ -6,9 +6,19 @@
     <description>Recent content in Tags on Cory Schmitt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Sun, 25 Nov 2018 13:58:02 -0800</lastBuildDate>
     
 	<atom:link href="https://schmitty.me/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Elixir</title>
+      <link>https://schmitty.me/tags/elixir/</link>
+      <pubDate>Sun, 25 Nov 2018 13:58:02 -0800</pubDate>
+      
+      <guid>https://schmitty.me/tags/elixir/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

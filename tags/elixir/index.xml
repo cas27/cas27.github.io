@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Cory Schmitt</title>
-    <link>https://schmitty.me/</link>
-    <description>Recent content on Cory Schmitt</description>
+    <title>Elixir on Cory Schmitt</title>
+    <link>https://schmitty.me/tags/elixir/</link>
+    <description>Recent content in Elixir on Cory Schmitt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 25 Nov 2018 13:58:02 -0800</lastBuildDate>
     
-	<atom:link href="https://schmitty.me/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://schmitty.me/tags/elixir/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -20,15 +20,6 @@
       <description>Using behaviours in elixir is a great way to define how a module act. They are also used a lot when doing polymorphism, but there are a few best practices that are not apparent when taking this approach. Lets go over them.
 Lets implement a simple behaviour to give us some context.
 defmodule Calculator do @callback add(number(), number()) :: number() end defmodule Calc.Base10 do @behaviour Calculator @impl true def add(x, y), do: x + y end We&amp;rsquo;ve created a simple behaviour and implemented its only callback; the add function.</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://schmitty.me/pages/about/</link>
-      <pubDate>Sun, 25 Nov 2018 13:48:10 -0800</pubDate>
-      
-      <guid>https://schmitty.me/pages/about/</guid>
-      <description>I am a Software Engineer currently working remotely for TaxJar specializing in Elixir.</description>
     </item>
     
   </channel>
