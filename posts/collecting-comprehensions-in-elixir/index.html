@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Cory Schmitt">
+    <meta name="description" content="https://schmitty.me/">
+    <meta name="keywords" content="blog,developer,personal">
+    
+    <meta property="og:site_name" content="Cory Schmitt">
+    <meta property="og:title" content="
+  Collecting Comprehensions - Cory Schmitt
+">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://schmitty.me/posts/collecting-comprehensions-in-elixir/">
+    <meta property="og:image" content="https://schmitty.me/images/tn.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="https://schmitty.me/posts/collecting-comprehensions-in-elixir/">
+    <meta name="twitter:image" content="https://schmitty.me/images/tn.png">
+
+    <base href="https://schmitty.me/">
+    <title>
+  Collecting Comprehensions - Cory Schmitt
+</title>
+
+    <link rel="canonical" href="https://schmitty.me/posts/collecting-comprehensions-in-elixir/">
+    
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://schmitty.me/css/style.min.css">
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://schmitty.me/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://schmitty.me/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.52" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">Cory Schmitt</a>
+    <input type="checkbox" id="menu-control"/>
+    <label class="menu-mobile  float-right " for="menu-control">
+      <span class="btn-mobile  float-right ">&#9776;</span>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item  align-center ">
+              <a class="navigation-link" href="https://schmitty.me/posts">Blog</a>
+            </li>
+          
+            <li class="navigation-item  align-center ">
+              <a class="navigation-link" href="https://schmitty.me/about">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    </label>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+  <article>
+    <header>
+      <h1 class="title">Collecting Comprehensions</h1>
+      <h2 class="date">December 16, 2018</h2>
+
+      
+    </header>
+
+    
+
+<p>Comprehensions are an elegant way to loop through enumerables, and are especially powerful when the enumerable is heavily nested. Paired with the <a href="https://hexdocs.pm/elixir/Collectable.html">Collectable</a> protocol they are absolutely fantastic.</p>
+
+<p>Let&rsquo;s walk through doing just that.</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir">  <span class="na">@data</span> <span class="p">[</span>
+    <span class="p">%{</span>
+      <span class="mi">1</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="p">%{</span>
+          <span class="mi">1</span> <span class="o">=&gt;</span> <span class="p">%{</span>
+            <span class="ss">line_items</span><span class="p">:</span> <span class="p">[</span>
+              <span class="p">%{</span>
+                <span class="ss">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="ss">to_state</span><span class="p">:</span> <span class="s2">&#34;NJ&#34;</span><span class="p">,</span>
+                <span class="ss">unit_price</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span>
+                <span class="ss">quantity</span><span class="p">:</span> <span class="mi">2</span>
+              <span class="p">},</span>
+              <span class="p">%{</span>
+                <span class="ss">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="ss">to_state</span><span class="p">:</span> <span class="s2">&#34;NJ&#34;</span><span class="p">,</span>
+                <span class="ss">unit_price</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+                <span class="ss">quantity</span><span class="p">:</span> <span class="mi">2</span>
+              <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="p">%{</span>
+      <span class="mi">2</span> <span class="o">=&gt;</span> <span class="p">[</span>
+        <span class="p">%{</span>
+          <span class="mi">1</span> <span class="o">=&gt;</span> <span class="p">%{</span>
+            <span class="ss">line_items</span><span class="p">:</span> <span class="p">[</span>
+              <span class="p">%{</span>
+                <span class="ss">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="ss">to_state</span><span class="p">:</span> <span class="s2">&#34;CA&#34;</span><span class="p">,</span>
+                <span class="ss">unit_price</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span>
+                <span class="ss">quantity</span><span class="p">:</span> <span class="mi">2</span>
+              <span class="p">},</span>
+              <span class="p">%{</span>
+                <span class="ss">id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="ss">to_state</span><span class="p">:</span> <span class="s2">&#34;NJ&#34;</span><span class="p">,</span>
+                <span class="ss">unit_price</span><span class="p">:</span> <span class="mi">201</span><span class="p">,</span>
+                <span class="ss">quantity</span><span class="p">:</span> <span class="mi">3</span>
+              <span class="p">}</span>
+            <span class="p">]</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">]</span></code></pre></div>
+<p>Here is the data structure we are going to use.  We&rsquo;ve got a list of users, who have lists of receipts, which each have a list of line items. Let&rsquo;s say we want to find the number of line items who shipped to &ldquo;NJ&rdquo;, total amount was &gt; 100, and the total sum for all their amounts.</p>
+
+<p>Let&rsquo;s write a comprehension that collects all the line items that meets the above criteria</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">for</span> <span class="n">user</span> <span class="o">&lt;-</span> <span class="na">@data</span><span class="p">,</span> <span class="c1"># grab a single user</span>
+    <span class="p">{</span><span class="n">_user_id</span><span class="p">,</span> <span class="n">receipts</span><span class="p">}</span> <span class="o">&lt;-</span> <span class="n">user</span><span class="p">,</span> <span class="c1"># get that users receipts</span>
+    <span class="n">receipt</span> <span class="o">&lt;-</span> <span class="n">receipts</span><span class="p">,</span> <span class="c1"># look at a single receipt</span>
+    <span class="p">{</span><span class="n">_receipt_id</span><span class="p">,</span> <span class="p">%{</span><span class="ss">line_items</span><span class="p">:</span> <span class="n">line_items</span><span class="p">}}</span> <span class="o">&lt;-</span> <span class="n">receipt</span><span class="p">,</span> <span class="c1"># get the line items from that receipt</span>
+    <span class="p">%{</span><span class="ss">to_state</span><span class="p">:</span> <span class="s2">&#34;NJ&#34;</span><span class="p">,</span> <span class="ss">unit_price</span><span class="p">:</span> <span class="n">price</span><span class="p">,</span> <span class="ss">quantity</span><span class="p">:</span> <span class="n">qty</span><span class="p">}</span> <span class="n">when</span> <span class="n">price</span> <span class="o">*</span> <span class="n">qty</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="o">&lt;-</span> <span class="n">line_items</span><span class="p">,</span> <span class="c1"># filter</span>
+    <span class="ss">do</span><span class="p">:</span> <span class="p">(</span><span class="n">price</span> <span class="o">*</span> <span class="n">qty</span><span class="p">)</span> <span class="c1">#collect</span>
+
+    <span class="c1">#=&gt; [202, 603]</span></code></pre></div>
+<p>In just 6 lines of code we were able to iterate through all the users, all their receipts, all their line items and use a combination of pattern matching and guards to filter for the exact data we wanted.  Well not quite.  We still need to sum all the totals and count the number of line items we found.</p>
+
+<p>We could Enum.reduce this returned data and get the last 2 answers we want but that comes with a couple negatives.  First we had to collect all this data into memory, and then we&rsquo;d have traverse it all.  This isn&rsquo;t much with our small dataset but if we were working with something large we&rsquo;d run into some speed and memory issues.  Really all we want to carry in memory are 2 data points, the total number or line items and the sum of them.</p>
+
+<p>Now lets implement the Collectable that would help us avoid these 2 issues.</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">defmodule</span> <span class="nc">Report</span> <span class="n">do</span>
+  <span class="n">defstruct</span> <span class="ss">count</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="ss">total_sales</span><span class="p">:</span> <span class="mi">0</span>
+
+  <span class="n">def</span> <span class="n">update</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span> <span class="n">do</span>
+    <span class="p">%{</span><span class="ss">count</span><span class="p">:</span> <span class="n">count</span><span class="p">,</span> <span class="ss">total_sales</span><span class="p">:</span> <span class="n">total_sales</span><span class="p">}</span> <span class="o">=</span> <span class="n">report</span>
+    <span class="p">%{</span><span class="n">report</span> <span class="o">|</span> <span class="ss">count</span><span class="p">:</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="ss">total_sales</span><span class="p">:</span> <span class="n">total_sales</span> <span class="o">+</span> <span class="n">total</span><span class="p">}</span>
+  <span class="n">end</span>
+
+  <span class="n">defimpl</span> <span class="nc">Collectable</span> <span class="n">do</span>
+    <span class="n">def</span> <span class="n">into</span><span class="p">(</span><span class="n">original</span><span class="p">)</span> <span class="n">do</span>
+      <span class="n">collector_fun</span> <span class="o">=</span> <span class="n">fn</span>
+        <span class="n">report</span><span class="p">,</span> <span class="p">{</span><span class="ss">:cont</span><span class="p">,</span> <span class="n">total</span><span class="p">}</span> <span class="o">-&gt;</span> <span class="nc">Report</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+        <span class="n">report</span><span class="p">,</span> <span class="ss">:done</span> <span class="o">-&gt;</span> <span class="n">report</span> 
+        <span class="n">_report</span><span class="p">,</span> <span class="ss">:halt</span> <span class="o">-&gt;</span> <span class="ss">:ok</span>
+      <span class="n">end</span>
+  
+      <span class="p">{</span><span class="n">original</span><span class="p">,</span> <span class="n">collector_fun</span><span class="p">}</span>
+    <span class="n">end</span>
+  <span class="n">end</span>
+<span class="n">end</span></code></pre></div>
+<p>Here we&rsquo;ve created a Report data structure to keep track of our count and total sales.  We&rsquo;ve implemented the Collectable protocol by handling the 3 enumerable tags (more on these in a bit) it requires.  Finally we added a simple update function that will update the data points that we care about.  All thats left is to tell our comprehension to use this.</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">for</span> <span class="n">user</span> <span class="o">&lt;-</span> <span class="na">@data</span><span class="p">,</span> <span class="c1"># grab a single user</span>
+    <span class="p">{</span><span class="n">_user_id</span><span class="p">,</span> <span class="n">receipts</span><span class="p">}</span> <span class="o">&lt;-</span> <span class="n">user</span><span class="p">,</span> <span class="c1"># get that users receipts</span>
+    <span class="n">receipt</span> <span class="o">&lt;-</span> <span class="n">receipts</span><span class="p">,</span> <span class="c1"># look at a single receipt</span>
+    <span class="p">{</span><span class="n">_receipt_id</span><span class="p">,</span> <span class="p">%{</span><span class="ss">line_items</span><span class="p">:</span> <span class="n">line_items</span><span class="p">}}</span> <span class="o">&lt;-</span> <span class="n">receipt</span><span class="p">,</span> <span class="c1"># get the line items from that receipt</span>
+    <span class="p">%{</span><span class="ss">to_state</span><span class="p">:</span> <span class="s2">&#34;NJ&#34;</span><span class="p">,</span> <span class="ss">unit_price</span><span class="p">:</span> <span class="n">price</span><span class="p">,</span> <span class="ss">quantity</span><span class="p">:</span> <span class="n">qty</span><span class="p">}</span> <span class="n">when</span> <span class="n">price</span> <span class="o">*</span> <span class="n">qty</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="o">&lt;-</span> <span class="n">line_items</span><span class="p">,</span> <span class="c1"># filter</span>
+    <span class="ss">into</span><span class="p">:</span> <span class="p">%</span><span class="nc">Report</span><span class="p">{},</span>
+    <span class="ss">do</span><span class="p">:</span> <span class="p">(</span><span class="n">price</span> <span class="o">*</span> <span class="n">qty</span><span class="p">)</span> <span class="c1">#collect</span>
+
+    <span class="c1">#=&gt; %Sales.Report{count: 2, total_sales: 805} </span></code></pre></div>
+<p>It&rsquo;s as simple as that!</p>
+
+<h3 id="enumerable-tags">Enumerable Tags</h3>
+
+<p>Since enumerables are tagged tuples (:cont, :done, :halt, :suspend) when you implement different enum protocols you&rsquo;ll often need to handle these tags.</p>
+
+<p>For collectable we need to handle :cont, :done and :halt.  For :cont we need to handle the next element being enumerated. :done is when we&rsquo;ve reach the end and return our final accumulator.  But what about :halt?</p>
+
+<p>Halt comes in handy when you need to terminate earlier than you would, ie in the middle of a list. Lets look at an example</p>
+
+<p>First we&rsquo;ll create a file to read named <code>sample</code></p>
+<div class="highlight"><pre class="chroma">foo
+bar
+break
+baz</pre></div>
+<p>Now lets create a stream that reads this file line by line and then using a comprehension puts those lines into a bitstring.</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="c1"># Resource</span>
+<span class="n">stream</span> <span class="o">=</span>
+  <span class="nc">Stream</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="n">fn</span> <span class="o">-&gt;</span> <span class="nc">File</span><span class="o">.</span><span class="n">open!</span><span class="p">(</span><span class="s2">&#34;sample&#34;</span><span class="p">)</span> <span class="n">end</span><span class="p">,</span>
+                 <span class="n">fn</span> <span class="n">file</span> <span class="o">-&gt;</span>
+                   <span class="n">case</span> <span class="nc">IO</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="ss">:line</span><span class="p">)</span> <span class="n">do</span>
+                    <span class="n">data</span> <span class="n">when</span> <span class="n">is_binary</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="n">and</span> <span class="n">data</span> <span class="o">==</span> <span class="s2">&#34;break</span><span class="se">\n</span><span class="s2">&#34;</span> <span class="o">-&gt;</span> <span class="p">{</span><span class="ss">:halt</span><span class="p">,</span> <span class="n">file</span><span class="p">}</span>
+                    <span class="n">data</span> <span class="n">when</span> <span class="n">is_binary</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">{[</span><span class="n">data</span><span class="p">],</span> <span class="n">file</span><span class="p">}</span>
+                     <span class="n">_</span> <span class="o">-&gt;</span> <span class="p">{</span><span class="ss">:halt</span><span class="p">,</span> <span class="n">file</span><span class="p">}</span>
+                   <span class="n">end</span>
+                 <span class="n">end</span><span class="p">,</span>
+                 <span class="n">fn</span> <span class="n">file</span> <span class="o">-&gt;</span> <span class="nc">File</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="n">end</span><span class="p">)</span>
+
+<span class="n">for</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="n">stream</span><span class="p">,</span> <span class="ss">into</span><span class="p">:</span> <span class="p">&lt;&lt;&gt;&gt;,</span> <span class="ss">do</span><span class="p">:</span> <span class="n">x</span>
+<span class="c1">#=&gt; &#34;foo\nbar\n&#34; </span></code></pre></div>
+<p>As you can see from the output the bitstring implementation of Collectable halted our stream early because of the <code>:halt</code> tag and its match on the &ldquo;break&rdquo; line in our file.</p>
+
+<p>So we&rsquo;ve used a comprehension to loop through a heavily nested data structure and passed the results into our own collectable to make easy work of getting the exact answers we were looking for.  Until next time!</p>
+
+  </article>
+
+  <br/>
+
+  
+  
+</section>
+
+      </div>
+      
+        <footer class="footer">
+  <section class="container">
+    
+    
+     
+
+  </section>
+</footer>
+<div class="fixed-bar">
+  <section class="container">
+    
+      <p id="privateTriggerText">Contact Me -&gt; <a id="privateTrigger">Click!</a></p>
+    
+    
+  </section>
+</div>
+
+      
+    </main>
+
+    
+
+  <script src="https://schmitty.me/js/app.js"></script>
+  
+  <script>
+  (function($) {
+    $(function() {
+      $('#privateTrigger').on('click', function() {
+        $('.private').slideToggle();
+        $('#privateTriggerText').text("cory[at]schmitty.me");
+      });
+    });
+   })(jQuery);
+  </script>
+  
+  </body>
+</html>

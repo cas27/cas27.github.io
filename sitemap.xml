@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://schmitty.me/posts/collecting-comprehensions-in-elixir/</loc>
+    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://schmitty.me/posts/how-to-behave-and-why/</loc>
     <lastmod>2018-11-25T13:58:02-08:00</lastmod>
   </url>
@@ -19,19 +24,19 @@
   
   <url>
     <loc>https://schmitty.me/</loc>
-    <lastmod>2018-11-25T13:58:02-08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://schmitty.me/categories/elixir/</loc>
-    <lastmod>2018-11-25T13:58:02-08:00</lastmod>
+    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://schmitty.me/tags/elixir/</loc>
-    <lastmod>2018-11-25T13:58:02-08:00</lastmod>
+    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://schmitty.me/categories/elixir/</loc>
+    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -43,13 +48,13 @@
   
   <url>
     <loc>https://schmitty.me/posts/</loc>
-    <lastmod>2018-11-25T13:58:02-08:00</lastmod>
+    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://schmitty.me/tags/</loc>
-    <lastmod>2018-11-25T13:58:02-08:00</lastmod>
+    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
     <priority>0</priority>
   </url>
   
