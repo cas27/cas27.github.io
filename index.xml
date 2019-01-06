@@ -6,10 +6,22 @@
     <description>Recent content on Cory Schmitt</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 16 Dec 2018 09:15:32 -0800</lastBuildDate>
+    <lastBuildDate>Sun, 06 Jan 2019 11:41:07 -0800</lastBuildDate>
     
 	<atom:link href="https://schmitty.me/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Derive Them Protocols</title>
+      <link>https://schmitty.me/posts/deriving-protocols-in-elixir/</link>
+      <pubDate>Sun, 06 Jan 2019 11:41:07 -0800</pubDate>
+      
+      <guid>https://schmitty.me/posts/deriving-protocols-in-elixir/</guid>
+      <description>Using derive to implement a protocol is a quick way to give functionality to your modules.
+Let&amp;rsquo;s say you had a protocol that rounds values for you. Like such:
+defprotocol Math do def round(v, p) end defimpl Math, for: Float do defdelegate round(v, p), to: Float end Which allows us to do something like this:
+iex(1)&amp;gt; Math.round(1.556, 2) 1.56 Now say we wanted to round all the float values in our custom data structures.</description>
+    </item>
     
     <item>
       <title>Collecting Comprehensions</title>

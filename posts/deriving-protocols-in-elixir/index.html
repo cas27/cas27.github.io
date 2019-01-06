@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Cory Schmitt">
+    <meta name="description" content="https://schmitty.me/">
+    <meta name="keywords" content="blog,developer,personal">
+    
+    <meta property="og:site_name" content="Cory Schmitt">
+    <meta property="og:title" content="
+  Derive Them Protocols - Cory Schmitt
+">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://schmitty.me/posts/deriving-protocols-in-elixir/">
+    <meta property="og:image" content="https://schmitty.me/images/tn.png">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="https://schmitty.me/posts/deriving-protocols-in-elixir/">
+    <meta name="twitter:image" content="https://schmitty.me/images/tn.png">
+
+    <base href="https://schmitty.me/">
+    <title>
+  Derive Them Protocols - Cory Schmitt
+</title>
+
+    <link rel="canonical" href="https://schmitty.me/posts/deriving-protocols-in-elixir/">
+    
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono:400,700">
+    <link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+    <link rel="stylesheet" href="https://schmitty.me/css/style.min.css">
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="https://schmitty.me/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://schmitty.me/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.53" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">Cory Schmitt</a>
+    <input type="checkbox" id="menu-control"/>
+    <label class="menu-mobile  float-right " for="menu-control">
+      <span class="btn-mobile  float-right ">&#9776;</span>
+      <ul class="navigation-list">
+        
+          
+            <li class="navigation-item  align-center ">
+              <a class="navigation-link" href="https://schmitty.me/posts">Blog</a>
+            </li>
+          
+            <li class="navigation-item  align-center ">
+              <a class="navigation-link" href="https://schmitty.me/about">About</a>
+            </li>
+          
+        
+        
+      </ul>
+    </label>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+  <article>
+    <header>
+      <h1 class="title">Derive Them Protocols</h1>
+      <h2 class="date">January 6, 2019</h2>
+
+      
+    </header>
+
+    <p>Using derive to implement a protocol is a quick way to give functionality to your modules.</p>
+
+<p>Let&rsquo;s say you had a protocol that rounds values for you.  Like such:</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">defprotocol</span> <span class="nc">Math</span> <span class="n">do</span>
+  <span class="n">def</span> <span class="n">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="n">end</span>
+
+<span class="n">defimpl</span> <span class="nc">Math</span><span class="p">,</span> <span class="ss">for</span><span class="p">:</span> <span class="nc">Float</span> <span class="n">do</span>
+  <span class="n">defdelegate</span> <span class="n">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">p</span><span class="p">),</span> <span class="ss">to</span><span class="p">:</span> <span class="nc">Float</span>
+<span class="n">end</span></code></pre></div>
+<p>Which allows us to do something like this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">iex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span> <span class="nc">Math</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mf">1.556</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  
+<span class="mf">1.56</span></code></pre></div>
+<p>Now say we wanted to round all the float values in our custom data structures.  Instead of having to implement the logic over and over would be nice if we could do it simply once.</p>
+
+<p>Here is an example data structure.</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">defmodule</span> <span class="nc">Data</span> <span class="n">do</span>
+  <span class="n">defstruct</span> <span class="ss">x</span><span class="p">:</span> <span class="mf">1.556</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="mf">2.556</span>
+<span class="n">end</span></code></pre></div>
+<p>If we tried to use our protocol as it stands now on the Data structure we&rsquo;d get:</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">iex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span> <span class="nc">Math</span><span class="o">.</span><span class="n">round</span><span class="p">(%</span><span class="nc">Data</span><span class="p">{},</span> <span class="mi">2</span><span class="p">)</span>
+<span class="o">**</span> <span class="p">(</span><span class="nc">Protocol.UndefinedError</span><span class="p">)</span> <span class="n">protocol</span> <span class="nc">Math</span> <span class="n">not</span> <span class="n">implemented</span> <span class="n">for</span> <span class="p">%</span><span class="nc">Data</span><span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="mf">1.556</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="mf">2.556</span><span class="p">}</span><span class="o">.</span> <span class="nc">This</span> <span class="n">protocol</span> <span class="n">is</span> <span class="n">implemented</span> <span class="ss">for</span><span class="p">:</span> <span class="nc">Float</span>
+    <span class="p">(</span><span class="n">super_happy_fun_land</span><span class="p">)</span> <span class="n">lib</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">ex</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span> <span class="nc">Math</span><span class="o">.</span><span class="n">impl_for!</span><span class="o">/</span><span class="mi">1</span>
+    <span class="p">(</span><span class="n">super_happy_fun_land</span><span class="p">)</span> <span class="n">lib</span><span class="o">/</span><span class="n">math</span><span class="o">.</span><span class="n">ex</span><span class="p">:</span><span class="mi">2</span><span class="p">:</span> <span class="nc">Math</span><span class="o">.</span><span class="n">round</span><span class="o">/</span><span class="mi">2</span></code></pre></div>
+<p>Let&rsquo;s implement the Math protocol for any such data structure in our system to take advantage of.</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">defimpl</span> <span class="nc">Math</span><span class="p">,</span> <span class="ss">for</span><span class="p">:</span> <span class="nc">Any</span> <span class="n">do</span>
+  <span class="n">defmacro</span> <span class="n">__deriving__</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">_struct</span><span class="p">,</span> <span class="n">_opts</span><span class="p">)</span> <span class="n">do</span>
+    <span class="n">quote</span> <span class="n">do</span>
+      <span class="n">defimpl</span> <span class="nc">Math</span><span class="p">,</span> <span class="ss">for</span><span class="p">:</span> <span class="n">unquote</span><span class="p">(</span><span class="n">module</span><span class="p">)</span> <span class="n">do</span>
+        <span class="n">def</span> <span class="n">round</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="n">do</span>
+          <span class="n">rounded_map</span> <span class="o">=</span>
+            <span class="n">data</span>
+            <span class="o">|&gt;</span> <span class="nc">Map</span><span class="o">.</span><span class="n">from_struct</span><span class="p">()</span>
+            <span class="o">|&gt;</span> <span class="nc">Enum</span><span class="o">.</span><span class="n">reduce</span><span class="p">(%{},</span> <span class="n">fn</span> <span class="p">{</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">},</span> <span class="n">acc</span> <span class="o">-&gt;</span>
+              <span class="nc">Map</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">acc</span><span class="p">,</span> <span class="p">%{</span><span class="n">k</span> <span class="o">=&gt;</span> <span class="n">round_float</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">p</span><span class="p">)})</span>
+            <span class="n">end</span><span class="p">)</span>
+
+          <span class="n">struct</span><span class="p">(</span><span class="n">unquote</span><span class="p">(</span><span class="n">module</span><span class="p">),</span> <span class="n">rounded_map</span><span class="p">)</span>
+        <span class="n">end</span>
+
+        <span class="n">defp</span> <span class="n">round_float</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="n">when</span> <span class="n">is_float</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="nc">Math</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+        <span class="n">defp</span> <span class="n">round_float</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="ss">do</span><span class="p">:</span> <span class="n">v</span>
+      <span class="n">end</span>
+    <span class="n">end</span>
+  <span class="n">end</span>
+<span class="n">end</span></code></pre></div>
+<p>We&rsquo;ve implemented the Math protocol for Any and then defined the <strong>deriving</strong> macro which will allow us to use this in our modules.</p>
+
+<p>Then we can implement the round function for any module that takes advantage of the derive.</p>
+
+<p>Finally let&rsquo;s add this to our Data module and give it a try.</p>
+<div class="highlight"><pre class="chroma"><code class="language-elixir" data-lang="elixir"><span class="n">defmodule</span> <span class="nc">Data</span> <span class="n">do</span>
+  <span class="na">@derive</span> <span class="p">[</span><span class="nc">Math</span><span class="p">]</span>
+  <span class="n">defstruct</span> <span class="ss">x</span><span class="p">:</span> <span class="mf">1.556</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="mf">2.556</span>
+<span class="n">end</span>
+
+<span class="n">iex</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;</span> <span class="nc">Math</span><span class="o">.</span><span class="n">round</span><span class="p">(%</span><span class="nc">Data</span><span class="p">{},</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">%</span><span class="nc">Data</span><span class="p">{</span><span class="ss">x</span><span class="p">:</span> <span class="mf">1.56</span><span class="p">,</span> <span class="ss">y</span><span class="p">:</span> <span class="mf">2.56</span><span class="p">}</span></code></pre></div>
+<p>As you can see using derive is a nice tool if you have lots of data structures that all need to implement a protocol in a simple fashion and saves you the time from having to repeat yourself over and over.</p>
+
+  </article>
+
+  <br/>
+
+  
+  
+</section>
+
+      </div>
+      
+        <footer class="footer">
+  <section class="container">
+    
+    
+     
+
+  </section>
+</footer>
+<div class="fixed-bar">
+  <section class="container">
+    
+      <p id="privateTriggerText">Contact Me -&gt; <a id="privateTrigger">Click!</a></p>
+    
+    
+  </section>
+</div>
+
+      
+    </main>
+
+    
+
+  <script src="https://schmitty.me/js/app.js"></script>
+  
+  <script>
+  (function($) {
+    $(function() {
+      $('#privateTrigger').on('click', function() {
+        $('.private').slideToggle();
+        $('#privateTriggerText').text("cory[at]schmitty.me");
+      });
+    });
+   })(jQuery);
+  </script>
+  
+  </body>
+</html>

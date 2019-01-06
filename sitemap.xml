@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://schmitty.me/posts/deriving-protocols-in-elixir/</loc>
+    <lastmod>2019-01-06T11:41:07-08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://schmitty.me/posts/collecting-comprehensions-in-elixir/</loc>
     <lastmod>2018-12-16T09:15:32-08:00</lastmod>
   </url>
@@ -24,19 +29,19 @@
   
   <url>
     <loc>https://schmitty.me/</loc>
-    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
+    <lastmod>2019-01-06T11:41:07-08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://schmitty.me/tags/elixir/</loc>
-    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
+    <lastmod>2019-01-06T11:41:07-08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://schmitty.me/categories/elixir/</loc>
-    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
+    <lastmod>2019-01-06T11:41:07-08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -48,13 +53,13 @@
   
   <url>
     <loc>https://schmitty.me/posts/</loc>
-    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
+    <lastmod>2019-01-06T11:41:07-08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://schmitty.me/tags/</loc>
-    <lastmod>2018-12-16T09:15:32-08:00</lastmod>
+    <lastmod>2019-01-06T11:41:07-08:00</lastmod>
     <priority>0</priority>
   </url>
   
